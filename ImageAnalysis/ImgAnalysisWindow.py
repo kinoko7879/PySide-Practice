@@ -4,8 +4,6 @@
 reference site
 r1. how to open file with qt => https://steam.oxxostudio.tw/category/python/pyqt5/qfiledialog.html 
 """
-        w = QWidget()
-        w.setLayout(l)
 from PySide2.QtWidgets import (QMainWindow, QWidget, 
         QLabel, QVBoxLayout, QHBoxLayout, QPushButton)
 from PySide2.QtGui import QIcon, QPixmap
@@ -16,19 +14,23 @@ class ImgAnalysisWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("ImageAnalysis ")
         #self.label = QLabel("Image Analysis")
-        l = QHBoxLayout()
-        pic1 = QLabel('This is default pic1')
-        pic1.setPixmap(QPixmap('D:\projects\PysideForLazy\griffith.jpg'))
-        l.addWidget(pic1)
+        self.layout = QHBoxLayout()
+        self.pic1 = QLabel('This is default pic1')
+        defaultImagePath = 'D:\projects\PysideForLazy\griffith.jpg'
+        self.pic1.setPixmap(QPixmap(defaultImagePath))
+        self.layout.addWidget(self.pic1)
         btn1 = QPushButton("Open files")
         btn1.clicked.connect(self.fileOpen)
-        l.addWidget(btn1)
+        self.layout.addWidget(btn1)
         w = QWidget()
-        w.setLayout(l)
+        w.setLayout(self.layout)
         self.setCentralWidget(w)
         self.setFixedSize(QSize(1400,1500))
     def fileOpen(self):
-        filePth, fileType = QFD.getOpenFileNames()
+        filePth, fileType = QFD.getOpenFileNames( filter='JPG (*.jpg)')
         print(filePth, fileType)
+        self.pic1.setPixmap(QPixmap(filePth))
+        self.layout.addWidget(self.pic1)
+        
 
         
